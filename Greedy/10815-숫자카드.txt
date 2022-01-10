@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector <int> v1;
+vector <int> v2;
+int n, m;
+
+bool Binary_Search(int l, int r, int target)		// 재귀적 버전.
+{
+	if (l <= r)
+	{
+		int m = (l + r) / 2;
+
+		if (v1[m] == target) return true;
+		else if (v1[m] < target) return Binary_Search(m + 1, r, target);
+		else return Binary_Search(l, m-1, target);
+	}
+	return false;
+}
+
+bool Binary_Search2(int l, int r, int target)		// 일반 버전.
+{
+	while (l <= r)
+	{
+		int m = (l + r) / 2;
+
+		if (v1[m] == target) return true;
+		else if (v1[m] < target) l = m + 1;
+		else r = m - 1;
+	}
+	return false;
+}
+
+void Find(int a)		// when this Func is upper Binary_Search Func,
+					// C3861 Error happens because this Func uses Binary_Search
+{
+	if (Binary_Search(0, n-1, a) == true) cout << "1 ";
+	else cout << "0 ";
+}
+
+int main()
+{
+	int a;
+
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a;
+		v1.push_back(a);
+	}
+
+	sort(v1.begin(), v1.end());
+
+	cin >> m;
+
+	for (int i = 0; i < m; i++)		// ★처음에 시간초과 계속 난 이유 : cin >> a 할때마다 Find 했었다. 
+	{							// 시스템상으로는 한번에 다 입력받고 한번에 다 처리하는게 더 빠른가보다.
+		/*cin >> a;
+		Find(a);*/
+
+		cin >> a;
+		v2.push_back(a);
+	}
+
+	for (int i = 0; i < m; i++)
+	{
+		Find(v2[i]);
+	}
+}
