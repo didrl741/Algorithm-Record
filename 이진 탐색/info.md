@@ -8,3 +8,4 @@
 ## 이진탐색의 두 버전
 
 ![이분탐색](https://user-images.githubusercontent.com/97036481/148726179-4a8d4a9b-1517-40b9-8f8e-41dd8a311c6b.png)
+<img src="![이분탐색](https://user-images.githubusercontent.com/97036481/148726179-4a8d4a9b-1517-40b9-8f8e-41dd8a311c6b.png)" width = "500px" height = "600px">
