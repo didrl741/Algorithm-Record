@@ -5,3 +5,5 @@
 - 재귀 : 탑다운 방식.
 - 반복문 : 바텀업 방식. 힙 영역을 쓰지 않아 메모리 초과를 막을 수 있다.
 
+## 재귀법과 반복문법
+![dp](https://user-images.githubusercontent.com/97036481/148887970-ae5e63ee-94c9-4637-bbee-d611825f597f.png)
