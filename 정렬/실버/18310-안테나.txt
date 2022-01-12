@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int n;
+vector<int> v;
+
+int main()
+{
+	cin >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		v.push_back(a);
+	}
+
+	sort(v.begin(), v.end());		// 포인트 : 이 문제는 무조건 중간에 있는 집이 유리하다.
+									// 따라서 홀수면 중간집, 짝수면 중간의 2 집만 비교하면 된다!!
+	if (n % 2 == 1)
+	{
+		cout << v[n / 2];
+	}
+
+	else
+	{
+		// n/2
+		int sum = 0;
+		for (int j = 0; j < n; j++)
+		{
+			sum += abs(v[n/2] - v[j]);
+		}
+
+
+		// n/2 - 1
+		int sum2 = 0;
+		for (int j = 0; j < n; j++)
+		{
+			sum2 += abs(v[ (n/2)-1 ] - v[j]);
+		}
+
+		if (sum < sum2) cout << v[n / 2];
+		else cout << v[(n / 2) - 1];
+	}
+}
