@@ -20,49 +20,47 @@ vector < pair<int, 가중치> > arr[4];
 
 ### 재귀
 
-{
-void DFS2(int vertex)			
-{
-	visited[vertex] = true;
-	ans++;
-
-	for (int i = 0; i < arr[vertex].size(); i++)
+	void DFS2(int vertex)			
 	{
-		if (visited[arr[vertex][i]] == false)
+		visited[vertex] = true;
+		ans++;
+
+		for (int i = 0; i < arr[vertex].size(); i++)
 		{
-			DFS(arr[vertex][i]);
+			if (visited[arr[vertex][i]] == false)
+			{
+				DFS(arr[vertex][i]);
+			}
 		}
 	}
-}
-}
 
 
 
 ### 스택
 
-void DFS3(int vertex)	
-{
-	visited[vertex] = true;
-	st.push(vertex);
-	ans++;
-
-	while (!st.empty())
+	void DFS3(int vertex)	
 	{
-		// 주의 : 스택은 push하면 top이 바뀐다!
-		int now_top = st.top();
-		st.pop();			// pop 위치 주의!! 
+		visited[vertex] = true;
+		st.push(vertex);
+		ans++;
 
-		for (int i = 0; i < arr[now_top].size(); i++)
+		while (!st.empty())
 		{
-			if (visited[arr[now_top][i]] == false)
+			// 주의 : 스택은 push하면 top이 바뀐다!
+			int now_top = st.top();
+			st.pop();			// pop 위치 주의!! 
+
+			for (int i = 0; i < arr[now_top].size(); i++)
 			{
-				visited[arr[now_top][i]] = true;
-				ans++;
-				st.push(arr[now_top][i]);
+				if (visited[arr[now_top][i]] == false)
+				{
+					visited[arr[now_top][i]] = true;
+					ans++;
+					st.push(arr[now_top][i]);
+				}
 			}
 		}
 	}
-}
 
 ## BFS
 
