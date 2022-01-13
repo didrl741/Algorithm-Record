@@ -20,7 +20,7 @@ vector < pair<int, 가중치> > arr[4];
 
 ### 재귀
 
-void DFS2(int vertex)			
+ void DFS2(int vertex)			
 {
 	visited[vertex] = true;
 	ans++;
@@ -37,7 +37,7 @@ void DFS2(int vertex)
 
 ### 스택
 
-void DFS3(int vertex)	
+ void DFS3(int vertex)	
 {
 	visited[vertex] = true;
 	st.push(vertex);
