@@ -64,3 +64,47 @@ void DFS3(int vertex)
 ## BFS
 
 - 넓이 우선 탐색. 매 턴마다 모든 경우에서 한칸씩 전진한다. 최단경로를 찾을 때 유용하다.
+- 재귀로 구현이 불가능하다. 재귀는 스택과 시스템적으로 구조가 같아서 한번 들어가면
+- 들어간 곳에서 끝까지 파고들어가거나 return하기 전까진 나올 수 없기 때문이다.
+- 즉, BFS의 특징인 '턴제' 를 구현할 수 없다.
+
+
+### 큐
+
+	void BFS()
+	{
+		visited[n] = true;
+		q.push({ n, 0 });			// 큐에는 true 해놓고 넣는다.
+
+		while (!q.empty())
+		{
+			if (q.front().nowPosition == m)
+			{
+				ans = q.front().cnt;
+				return;							
+			}
+
+			int nowTop = q.front().nowPosition;
+			int nowCnt = q.front().cnt;
+
+			q.pop();
+
+			if (nowTop * 2 <= 100000 && !visited[nowTop * 2])
+			{
+				visited[nowTop * 2] = true;
+				q.push({ nowTop * 2, nowCnt + 1 });
+			}
+
+			if (nowTop + 1 <= 100000 && !visited[nowTop + 1])
+			{
+				visited[nowTop + 1] = true;
+				q.push({ nowTop + 1, nowCnt + 1 });
+			}
+
+			if (nowTop - 1 >= 0 && !visited[nowTop - 1])
+			{
+				visited[nowTop - 1] = true;
+				q.push({ nowTop - 1, nowCnt + 1 });
+			}
+		}
+	}

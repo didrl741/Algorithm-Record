@@ -1,0 +1,130 @@
+.							2210 : 숫자판점프 : (dfs, bfs 둘다 가능)
+#include <iostream>
+#include <queue>
+#include <cmath>
+using namespace std;
+
+bool ansArr[999999];            // 여섯자리의 숫자를 중복없이 세기 위한 배열. 숫자가 각기 따로지만, 10의 제곱을 사용하면 된다.
+int arr[6][6];
+int ans = 0;
+
+int main()
+{
+    for (int i = 1; i <= 5; i++)
+    {
+        for (int j = 1; j <= 5; j++)
+        {
+            cin >> arr[i][j];
+        }
+    }
+
+    int way[4][2] = { {1,0},{-1,0}, {0,1}, {0,-1} };
+
+    queue<  pair< pair<int, int>, pair<int, int> > > q;     // {x, y}, {cnt, 현재까지누적숫자} 를 한번에 저장하기 위한 큐.
+
+    for (int i = 1; i <= 5; i++)        // 5*5 각 칸마다 시작점으로 25번을 돈다.
+    {
+        for (int j = 1; j <= 5; j++)
+        {
+            q.push({ { i,j }, {1,arr[i][j] } });        // 시작점, 현재 카운트 1, 현재숫자 저장.
+
+            while (!q.empty())
+            {
+                int y = q.front().first.first;          // pop 하기 전에 각종 정보들 저장.
+                int x = q.front().first.second;
+                int cnt = q.front().second.first;
+                int accNum = q.front().second.second;
+
+                q.pop();
+
+                if (cnt == 6)                               // 만약 카운트가 6이고 이전에 중복되지 않았었으면 ans++;
+                {
+                    if (ansArr[accNum] == false)
+                    {
+                        ansArr[accNum] = true;
+                        ans++;
+                    }
+
+                    continue;           // 길이가 6을 넘어가지 않도록, 더이상의 확장을 하지 않는다.
+
+                }
+
+
+                for (int k = 0; k < 4; k++)
+                {
+                    int ny = y + way[k][0];
+                    int nx = x + way[k][1];
+
+                    if (ny >= 1 && ny <= 5 && nx >= 1 && nx <= 5)
+                    {
+                        int powNum = pow(10, cnt);      // cnt에 따라서 10의 몇승인지.
+
+                        q.push({ { ny, nx }, {cnt + 1, powNum * arr[ny][nx] + accNum } });  // accNum : 예를들어 수 1 2 3을 지나왔다면 321이 저장될것이다. 마지막에는 111111처럼 여섯자리수가 될 것이다.
+                    }
+                }
+            }
+        }
+    }
+    cout << ans;
+}
+
+
+
+
+
+.						dfs 이용 (더 간결하다, 벡터중복원소제거법 사용, pow 안사용)
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector <int> v;          
+int arr[6][6];
+int way[4][2] = { {1,0},{-1,0}, {0,1}, {0,-1} };
+
+void dfs(int y, int x, int cnt, int accNum)         // 큐에 4가지 정보를 저장하는건 번거롭다. 하지만 함수를 사용하면, 무제한으로 인자를 설정할 수 있다.
+{
+    if (cnt == 6)                               
+    {
+        v.push_back(accNum);
+
+        return;          
+    }
+
+
+    for (int k = 0; k < 4; k++)
+    {
+        int ny = y + way[k][0];
+        int nx = x + way[k][1];
+
+        if (ny >= 1 && ny <= 5 && nx >= 1 && nx <= 5)
+        {   
+            dfs(ny, nx, cnt + 1, arr[ny][nx] + accNum*10);      // 더 간편함. pow버전이랑 accNum 순서가 다르긴 하다.
+        }
+    }
+}
+
+int main()
+{
+    for (int i = 1; i <= 5; i++)
+    {
+        for (int j = 1; j <= 5; j++)
+        {
+            cin >> arr[i][j];
+        }
+    }
+
+
+    for (int i = 1; i <= 5; i++)       
+    {
+        for (int j = 1; j <= 5; j++)
+        {
+            dfs(i, j, 1, arr[i][j]);
+        }
+    }
+    
+    sort(v.begin(), v.end());                               // 벡터의 중복원소 제거!!!
+    v.erase(  unique ( v.begin(), v.end()  ) , v.end()  );      
+
+    cout << v.size();
+}
