@@ -12,23 +12,23 @@
 - 해시 테이블로 구현되어있기 때문에, 요소를 자동으로 정렬하지 않으며 검색, 삽입, 삭제가 평균적으로 상수 시간에 가능하다.
 
 - 사용법
-    unordered_map<int, string> hm;
+        unordered_map<int, string> hm;
 
-    hm.insert({ 3, "apple" });
-    hm.insert({ 3, "banana" });
-    hm.insert({ 4, "boy" });
-    hm.insert({ 5, "orange" });
+        hm.insert({ 3, "apple" });
+        hm.insert({ 3, "banana" });
+        hm.insert({ 4, "boy" });
+        hm.insert({ 5, "orange" });
 
-    cout << hm[3] << endl;      // apple
-    cout << hm.at(3) << endl;   // apple. 느림, 안전.
-    cout << hm.count(3) << endl;
-    cout << hm.size() << endl;  // 3. 서로다른 Key의 수?
+        cout << hm[3] << endl;      // apple
+        cout << hm.at(3) << endl;   // apple. 느림, 안전.
+        cout << hm.count(3) << endl;
+        cout << hm.size() << endl;  // 3. 서로다른 Key의 수?
 
-    hm.at(4) = "girl";
-    hm.erase(5);                // Ket = 5인 원소 삭제.
-    
+        hm.at(4) = "girl";
+        hm.erase(5);                // Ket = 5인 원소 삭제.
 
 
-    // hm.begin() : 첫번째 원소 반복자
-    // hm.end() : 마지막 원소 반복자
-    // hm.find(key) : 반복자 리턴, 없다면 end 리턴.
+
+        // hm.begin() : 첫번째 원소 반복자
+        // hm.end() : 마지막 원소 반복자
+        // hm.find(key) : 반복자 리턴, 없다면 end 리턴.
