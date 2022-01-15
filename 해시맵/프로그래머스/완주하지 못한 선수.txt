@@ -1,0 +1,61 @@
+			나의 풀이 : 정렬 이용.
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    string answer = "";
+    
+    sort(participant.begin(), participant.end());
+    sort(completion.begin(), completion.end());
+    
+    for(int i=0 ; i<participant.size() ; i++)
+    {
+        if(i == participant.size()-1 || participant[i] != completion[i] )
+        {
+            answer = participant[i];
+            return answer;
+        }
+    }
+}
+
+
+
+
+
+
+				해시맵 이용한 풀이 
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <iostream>
+
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    string answer = "";
+    
+    unordered_map <string, int> hm;
+
+    for (auto elem : completion)
+    {
+        if (hm.end() == hm.find(elem))     // 해쉬맵 안에 없으면
+            hm.insert({ elem, 1 });
+        else                                // 이미 있으면, 갯수 +1
+            hm[elem]++;
+    }
+
+    for (auto elem : participant)
+    {
+        if (hm.end() == hm.find(elem))      // 완주자목록에 없으면 그사람이 답.
+            return elem;
+        else
+        {
+            hm[elem]--;
+            if (hm[elem] < 0)        // 동명이인일 경우.
+                return elem;
+        }       
+    }
+}
