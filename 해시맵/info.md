@@ -11,7 +11,7 @@
 
 - 해시 테이블로 구현되어있기 때문에, 요소를 자동으로 정렬하지 않으며 검색, 삽입, 삭제가 평균적으로 상수 시간에 가능하다.
 
-- 사용법
+- 사용법   ( #include <unordered_map> )
 
         unordered_map<int, string> hm;
 
