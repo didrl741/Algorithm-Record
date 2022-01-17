@@ -1,0 +1,58 @@
+.						19638 : 센티와 마법의 뿅망치 : 우선순위 큐 가장 기본문제.
+#include <iostream>
+#include <queue>
+using namespace std;
+
+struct cmp
+{
+    bool operator() (int n1, int n2)
+    {
+        return n1 < n2;
+    }
+};
+
+int n, h, t;
+
+int main()
+{
+    priority_queue <int, vector<int>, cmp > pq;
+
+    cin >> n >> h >> t;
+
+    for (int i = 0; i < n; i++)
+    {
+        int a;
+        cin >> a;
+        pq.push(a);
+    }
+
+    if (pq.top() < h)           // 애초에 조건을 만족한 경우.
+    {
+        cout << "YES" << '\n';
+        cout << 0;
+        return 0;
+    }
+
+    for (int i = 0; i < t; i++)
+    {
+        int a = pq.top();
+
+        pq.pop();
+
+        int b = max(1, a / 2);      // 스킬. 
+
+        pq.push(b);
+
+        if (pq.top() < h)
+        {
+            cout << "YES" << '\n';
+            cout << i+1;
+            return 0;
+        }
+
+    }
+
+    cout << "NO" << '\n';
+    cout << pq.top();
+
+}

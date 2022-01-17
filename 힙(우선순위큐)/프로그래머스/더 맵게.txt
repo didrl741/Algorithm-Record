@@ -1,0 +1,46 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <queue>
+using namespace std;
+
+struct cmp {
+    bool operator() (int a, int b)
+    {
+        return a > b;
+    }
+};
+
+int solution(vector<int> scoville, int K) {
+    int answer = 0;
+
+    priority_queue< int, vector<int>, cmp > pq;         // minHeap 우선순위 큐 선언.
+
+    while (!scoville.empty())
+    {
+        pq.push(scoville.back());
+        scoville.pop_back();
+    }
+
+    while ( !pq.empty() )
+    {
+        if (pq.top() >= K) break;
+
+        if (pq.size() == 1)         // K보다 작은데 1개남았으면 요리 불가.
+        {
+            answer = -1;
+            break;
+        }
+
+        int min1 = pq.top();
+        pq.pop();
+        int min2 = pq.top();
+        pq.pop();
+
+        pq.push(min1 + 2 * min2);
+        answer++;
+    }
+
+
+    return answer;
+}
