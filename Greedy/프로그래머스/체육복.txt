@@ -1,0 +1,112 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+// 그리디 이유 : 각각 모든 학생을 체크하면 결과적으로 최선의 결과.
+// 풀이 : 한 학생에 대한 데이터가 2가지 배열로 주어지기 때문에,
+// 편의성을 위해 두가지를 통합한 구조체 배열 생성.
+// 그 후 lost학생마다 왼쪽체크, 오른쪽 체크 해서 만족못시키면 ans--;
+
+// 꿀팁 : 배열(벡터)의 양끝 '범위 체크를 생략'하기 위해
+// 양쪽 끝에 의미없는 '더미Student를 삽입'했다.
+
+struct Student          
+{
+    bool lost;
+    bool reserve;
+};
+
+int solution(int n, vector<int> lost, vector<int> reserve) {
+    int answer = n;
+
+    vector<Student> v;
+      
+    for (int i = 0; i <= n+1; i++)        // n+2번 반복 : 범위 주의
+    {
+        v.push_back({ false, false});
+    }
+
+    for (int i = 0; i < lost.size(); i++)
+    {
+        v[lost[i]].lost = true;
+    }
+
+    for (int i = 0; i < reserve.size(); i++)
+    {
+        if (v[reserve[i]].lost == true)     // lost, reserve 둘다면 -> 빌려줄수 없기때문에 둘다 false로.
+        {
+            v[reserve[i]].lost = false;
+        }
+        else
+            v[reserve[i]].reserve = true;
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        if (v[i].lost)
+        {
+            if (v[i - 1].reserve)               // 왼쪽 체크
+            {
+                v[i - 1].reserve = false;
+                continue;
+            }
+            if (v[i + 1].reserve)               // 오른쪽 체크
+            {
+                v[i + 1].reserve = false;
+                continue;
+            }
+            answer--;           // 양쪽 만족못하면 --;
+        }
+    }
+
+    return answer;
+}
+
+
+
+
+
+
+
+
+.				수학적  풀이
+// lost, reserve 조건을 -1, 1로 표현한 풀이.
+// 둘다 아닌 학생은 0으로 표현했다.
+// 장점 : 둘다인 학생은 자동으로 0으로 돼서 따로 처리 필요X
+// -1인 학생이 양 옆에서 1을 꿔오는 방식.
+
+int arr[32];
+
+int solution(int n, vector<int> lost, vector<int> reserve) {
+    int answer = n;
+
+    for (int i = 0; i < lost.size(); i++)
+    {
+        arr[lost[i]] --;
+    }
+
+    for (int i = 0; i < reserve.size(); i++)
+    {
+        arr[reserve[i]] ++;
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        if (arr[i] == -1)
+        {
+            if (arr[i - 1] == 1)               // 왼쪽 체크
+            {
+                arr[i - 1] = arr[i] = 0;
+                continue;
+            }
+
+            if (arr[i + 1] == 1)               // 오른쪽 체크
+            {
+                arr[i + 1] = arr[i] = 0;
+                continue;
+            }
+            answer--;           // 양쪽 만족못하면 --;
+        }
+    }
+    return answer;
+}
