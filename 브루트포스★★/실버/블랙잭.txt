@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+
+// 처음에는 next_permutation 해서 v[0] v[1] v[2]로 하려고 했지만
+// 너무 시간이 오래걸려서 이 방법으로 했다.
+// 배열 전수조사의 아주 기초이다.
+
+using namespace std;
+
+int n, m;
+int maxNum = 0;
+vector<int> v;
+
+int main()
+{
+
+	cin >> n >> m;
+
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		v.push_back(a);
+	}
+
+	for (int i = 0; i < v.size() - 2; i++)
+	{
+		for (int j = i + 1; j < v.size() - 1; j++)
+		{
+			for (int k = j + 1; k < v.size(); k++)
+			{
+				int sum = v[i] + v[j] + v[k];
+				if (sum <= m && sum > maxNum) maxNum = sum;
+			}
+		}
+	}
+
+	cout << maxNum;
+}
