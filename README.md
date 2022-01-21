@@ -22,6 +22,6 @@
 
 
 
-## 기업별 알고리즘
+## 기업별 알고리즘(16 ~ 19년도)
 
 ![알고리즘](https://user-images.githubusercontent.com/97036481/150489457-fa474015-904f-49b2-aac5-1b27f531bc7b.png)
