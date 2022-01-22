@@ -1,0 +1,61 @@
+풀이: 우선 수를 입력받고 그 수의 좌표 압축 숫자를 계산하는건 쉽다.
+하지만 그 후 답 출력은 처음 입력받은 순서로 해야되기 때문에,
+다시 되돌릴 수 있도록 order 인자를 만들고 order로 sort했다.
+한 숫자에 대해 3개의 인자가 필요하기 때문에 편의성을 위해 Struct를 이용했다.
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int n;
+
+struct Num
+{
+	int order;		// 입력받은 순서
+	int num;		
+	int ans;		// 답으로 나올 숫자.
+};
+
+bool compare(Num a, Num b)
+{
+	return a.num < b.num;
+}
+
+bool compare2(Num a, Num b)
+{
+	return a.order < b.order;
+}
+
+int main()
+{
+	cin >> n;
+	vector<Num> v(n);
+
+	for (int i = 0; i < n; i++)
+	{
+		v[i].order = i;
+		cin >> v[i].num;
+	}
+
+	sort(v.begin(), v.end(), compare);
+
+	v[0].ans = 0;
+
+	for (int i = 1; i < n; i++)
+	{
+		if (v[i].num > v[i - 1].num)
+		{
+			v[i].ans = v[i - 1].ans + 1;
+		}
+		else
+			v[i].ans = v[i - 1].ans;
+	}
+
+	sort(v.begin(), v.end(), compare2);
+
+	for (int i = 0; i < n; i++)
+	{
+		cout << v[i].ans << ' ';
+	}
+}
