@@ -42,3 +42,8 @@
         {
             cout << v2[i] << ' ';
         }
+
+-   lower_bound(v2.begin(), v2.end(), k)  
+    k값이 v2에서 몇 번째에 위치하는지 주소값을 반환.  
+    auto it = lower_bound(v2.begin(), v2.end(), k);  
+    cout << it - v2.begin() 하면 idx가 출력

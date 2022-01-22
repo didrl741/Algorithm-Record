@@ -59,3 +59,46 @@ int main()
 		cout << v[i].ans << ' ';
 	}
 }
+
+
+
+
+
+
+
+				다른사람 풀이: lower_bound, unique 이용
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int n;
+
+int main()
+{
+	cin >> n;
+	vector<int> v(n);
+
+	for (int i = 0; i < n; i++)
+	{
+		v[i] = i;
+		cin >> v[i];
+	}
+
+	vector<int> copy_v(v);
+
+	sort(copy_v.begin(), copy_v.end());
+
+	copy_v.erase(unique(copy_v.begin(), copy_v.end()), copy_v.end());
+
+	for (int i = 0; i < n; i++)
+	{
+		auto it = lower_bound(copy_v.begin(), copy_v.end(), v[i]);
+		cout << it - copy_v.begin() << ' ';
+	}
+}
+
+//	lower_bound: v[i]가 copy_v에서 몇 번째에 위치하는지 주소값을 반환.
+
+//	auto 키워드 : 선언시 자료형을 보고 자동으로 타입을 결정해 줌.
+//	함수의 인자로는 사용 불가, 리턴 타입으로는 사용 가능.
