@@ -18,7 +18,7 @@
 
 ## STL
 
--   unique(v.begin(), v.end())
+-   unique(v.begin(), v.end()) </ br>
     헤더: algorithm
     연속으로 중복 되는 원소를 제거한다.
     연속으로 중복된 값만 제거하기 때문에 반드시 정렬을 하고 해야 한다.
