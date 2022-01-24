@@ -1,0 +1,39 @@
+답지 보고 풀었다.
+풀이: 반복문 i에서, 'i항의 수로 끝나는 가장 긴 부분수열의 길이'를 dp에 저장한다.
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int arr[1001][2];
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	int n;
+	int ans = 0;
+
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> arr[i][0];
+	}
+
+	for (int i = 1; i <= n; i++)
+	{
+		arr[i][1] = 1;
+
+		for (int j = i - 1; j >= 1; j--)
+		{
+			if (arr[i][0] > arr[j][0] )
+			{
+				arr[i][1] = max(arr[i][1], arr[j][1] + 1);
+			}
+		}
+		ans = max(ans, arr[i][1]);
+	}
+	cout << ans;
+}
