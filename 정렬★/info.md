@@ -47,3 +47,9 @@
     k값이 v2에서 몇 번째에 위치하는지 주소값을 반환.  
     auto it = lower_bound(v2.begin(), v2.end(), k);  
     cout << it - v2.begin() 하면 idx가 출력
+    
+    
+- stable_sort : sort와 사용법이 같다. (헤더 : algorithm)  
+  퀵정렬로 구현된 sort 함수는 비교값이 동일할 때 순서가 바뀔 위험이 있다.
+  하지만 stable_sort는 병합정렬로 구현되어 있기 때문에 같은값이면 순서가 바뀌지 않는다.
+  
