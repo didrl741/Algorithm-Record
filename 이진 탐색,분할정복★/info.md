@@ -28,6 +28,8 @@
 	int x = lower_bound(v.begin(), v.end(), 40) - v.begin() ;
 
 	cout << x << endl;		// 위치
+	
+	cout << upper_boune(~) - lower_bound(~) : 그 요소의 갯수 찾기.
 
 	cout << binary_search(v.begin(), v.end(), 69);		// 있는지 없는지.
     
