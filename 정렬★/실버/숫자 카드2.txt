@@ -1,0 +1,81 @@
+정렬, 벡터 등을 사용하지 않고 배열을 사용했다 => 속도는 빠르게, 메모리는 희생.
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int n, m;
+int arr[20000001];
+
+void check(int a)
+{
+	cout << arr[a] << ' ';
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		arr[a+10000000]++;
+	}
+
+	cin >> m;
+	for (int i = 0; i < m; i++)
+	{
+		int a;
+		cin >> a;
+		check(a + 10000000);
+	}
+}
+
+
+
+
+
+STL을 이용한 방법: upper_bound, lower_bound
+upper_bound: 초과하는 값들 중 가장 작은 idx = 찾는 값의 최대 idx+1
+lower_bound: 찾는 값들 중 가장 작은 idx
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+int n, m;
+vector<int> v;
+
+void check(int a)
+{
+	cout << upper_bound(v.begin(), v.end(), a)
+		-lower_bound(v.begin(), v.end(), a) << ' ';
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		v.push_back(a);
+	}
+
+	sort(v.begin(), v.end());
+
+	cin >> m;
+	for (int i = 0; i < m; i++)
+	{
+		int a;
+		cin >> a;
+		check(a);
+	}
+}
