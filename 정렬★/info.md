@@ -43,13 +43,16 @@
             cout << v2[i] << ' ';
         }
 
--   lower_bound(v2.begin(), v2.end(), k)  
-    k값이 v2에서 몇 번째에 위치하는지 주소값을 반환.  
-    auto it = lower_bound(v2.begin(), v2.end(), k);  
-    cout << it - v2.begin() 하면 idx가 출력
--   stable_sort : sort와 사용법이 같다. (헤더 : algorithm)  
-    퀵정렬로 구현된 sort 함수는 비교값이 동일할 때 순서가 바뀔 위험이 있다.
-    하지만 stable_sort는 병합정렬로 구현되어 있기 때문에 같은값이면 순서가 바뀌지 않는다.
+-   lower_bound(v2.begin(), v2.end(), k)
+
+k값이 v2에서 몇 번째에 위치하는지 주소값을 반환.  
+auto it = lower_bound(v2.begin(), v2.end(), k);  
+cout << it - v2.begin() 하면 idx가 출력
+
+-   stable_sort : sort와 사용법이 같다. (헤더 : algorithm)
+
+퀵정렬로 구현된 sort 함수는 비교값이 동일할 때 순서가 바뀔 위험이 있다.
+하지만 stable_sort는 병합정렬로 구현되어 있기 때문에 같은값이면 순서가 바뀌지 않는다.
 
 -   multiset (set 헤더)
 
@@ -58,27 +61,27 @@ set container와 달리 key가 중복 가능한 set을 구현할 수 있다.
 insert: 원소 삽입.  
 erase: 인자로 값을 넣으면 그 값을 가진 인자 모두 삭제. 주소값을 넣으면 그 주소의 원소만 삭제.
 
-        multiset<int> ms;
+    multiset<int> ms;
 
-        ms.insert(3);
-        ms.insert(9);
-        ms.insert(6);
-        ms.insert(12);
-        ms.insert(2);
+    ms.insert(3);
+    ms.insert(9);
+    ms.insert(6);
+    ms.insert(12);
+    ms.insert(2);
 
-        cout << *ms.begin() << endl;		//2
+    cout << *ms.begin() << endl;		//2
 
-        auto it = ms.end();
-        it--;
-        cout << *it << endl;				// 12
+    auto it = ms.end();
+    it--;
+    cout << *it << endl;				// 12
 
-        ms.erase(it);				// 마지막 요소(제일 큰 값) 제거
+    ms.erase(it);				// 마지막 요소(제일 큰 값) 제거
 
-        it = ms.end();
-        it--;
-        cout << *it << endl;				// 9
+    it = ms.end();
+    it--;
+    cout << *it << endl;				// 9
 
 
-        ms.erase(ms.begin());		// 첫 요소 제거(제일 작은 값)
+    ms.erase(ms.begin());		// 첫 요소 제거(제일 작은 값)
 
-        cout << *ms.begin() << endl;
+    cout << *ms.begin() << endl;

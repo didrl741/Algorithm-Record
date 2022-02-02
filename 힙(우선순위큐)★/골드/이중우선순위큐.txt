@@ -1,0 +1,208 @@
+
+답지보고 풀었다.
+핵심: pq1에서 pop 한 수는 pq2에서도 없는취급을 받아야 한다.
+하지만 그 수를 pop한다고 pq2를 끝까지 pop할 수는 없으니 따로 체크배열을 만든다.
+이렇게 무효화된 수는 나중에 pq2에서 del을 수행하기 전에
+다 pop해서 없애버린다.(sync함수 이용)
+
++ 주의사항: 조건문 안의 순서 유의하자.
+
+#include <iostream>
+#include <queue>
+#include <cstring>
+using namespace std;
+
+struct Num
+{
+	int n;
+	int i;
+};
+
+bool arr[1000000];
+
+struct cmp1
+{
+	bool operator() (Num a, Num b)
+	{
+		return a.n < b.n;
+	}
+};
+
+struct cmp2
+{
+	bool operator() (Num a, Num b)
+	{
+		return a.n > b.n;
+	}
+};
+
+int n;
+
+priority_queue<Num, vector<Num>, cmp1> pq1;
+priority_queue<Num, vector<Num>, cmp2> pq2;
+
+void sync1()
+{
+	// 조건문 안에 순서 주의!! 반대로 하면 오류난다.
+	while (!pq1.empty() && arr[pq1.top().i] == false)
+	{
+		pq1.pop();
+	}
+}
+
+void sync2()
+{
+	while (!pq2.empty() && arr[pq2.top().i] == false)
+	{
+		pq2.pop();
+	}
+}
+
+
+void del(int b)
+{
+	if (b == 1)
+	{
+		sync1();
+		if (pq1.empty()) return;
+
+		arr[pq1.top().i] = false;
+		pq1.pop();
+	}
+	else
+	{
+		sync2();
+		if (pq2.empty()) return;
+
+		arr[pq2.top().i] = false;
+		pq2.pop();
+	}
+}
+
+void ins(int b, int i)
+{
+	pq1.push({ b,i });
+	pq2.push({ b,i });
+	arr[i] = true;
+}
+
+void ans()
+{
+	sync1();
+	sync2();
+
+	if ( pq1.empty() )
+		cout << "EMPTY" << "\n";
+	else
+	{
+		cout << pq1.top().n << ' ' << pq2.top().n << "\n";
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	int k;
+	cin >> k;
+	for (int i = 0; i < k; i++)
+	{
+		cin >> n;
+		for (int i = 0; i < n; i++)
+		{
+			char a;
+			int b;
+			cin >> a >> b;
+
+			if (a == 'I')
+			{
+				ins(b, i);
+			}
+			else
+				del(b);
+		}
+		ans();
+
+		while (!pq1.empty()) pq1.pop();
+		while (!pq2.empty()) pq2.pop();
+		memset(arr, 0, sizeof(arr));
+		
+	}
+}
+
+
+
+
+
+
+
+multiset 사용
+특징: 자동으로 오름차순 정렬, 첫 요소와 마지막 요소에 접근, 삭제가 가능.
+벡터와 다른점: 벡터는 매번 sort 해줘야 하는데, 시간차가 크다.
+
+#include <iostream>
+#include <set>
+using namespace std;
+
+int n;
+multiset<int> ms;
+
+void del(int b)
+{
+	if (ms.empty()) return;
+
+	if (b == 1)
+	{
+		auto it = ms.end();
+		it--;
+		ms.erase(it);
+	}
+	else
+	{
+		auto it = ms.begin();
+		ms.erase(it);
+	}
+}
+
+void ans()
+{
+
+	if (ms.empty())
+		cout << "EMPTY" << "\n";
+	else
+	{
+		auto first = ms.begin();
+		auto last = ms.end();
+		last--;
+
+		cout << *last << ' ' << *first << "\n";
+	}
+
+	ms.clear();
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	int k;
+	cin >> k;
+	for (int i = 0; i < k; i++)
+	{
+		cin >> n;
+		for (int i = 0; i < n; i++)
+		{
+			char a;
+			int b;
+			cin >> a >> b;
+
+			if (a == 'I')
+			{
+				ms.insert(b);
+			}
+			else
+				del(b);
+		}
+		ans();
+	}
+}
