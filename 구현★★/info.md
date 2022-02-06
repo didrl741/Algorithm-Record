@@ -5,7 +5,7 @@
     // int는 4byte = 32bit
 
     int a = 3;
-    a = a << 1; // 모든 비트 왼쪽으로
+    a = a << 1; // 모든 비트 왼쪽으로: 제곱연산!
     cout << a << endl; // 6
 
     cout << (~a) << endl; // not

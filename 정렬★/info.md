@@ -36,6 +36,7 @@
 
         vector<int> v2 = { 1,2,2,3,4,4,5,6 };
 
+        // unique는 중복된 첫 원소의 주소를 반환.
         v2.erase(unique(v2.begin(), v2.end()), v2.end());
 
         for (int i = 0; i < v2.size(); i++)
