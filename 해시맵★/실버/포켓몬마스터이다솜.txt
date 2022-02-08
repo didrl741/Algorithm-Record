@@ -1,0 +1,46 @@
+풀이 : 해쉬맵을 이용한 풀이. value를 이용해 key를 찾을 방법이 없을까 생각하다가
+그냥 메모리를 좀더 쓰고 시간을 줄이자고 생각해서 해쉬맵을 2개 사용했다.
+하나는 key가 string, 하나는 key가 int이다.
+
+#include <iostream>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+unordered_map<string, int> um;
+unordered_map<int, string> um2;
+int n, m;
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> n >> m;
+
+	for (int i = 1; i <= n; i++)
+	{
+		string str;
+		cin >> str;
+		um.insert({ str, i });
+		um2.insert({ i, str });
+	}
+
+	for (int i = 0; i < m; i++)
+	{
+		string str;
+		cin >> str;
+		
+		if (str[0] >= 'A' && str[0] <= 'Z')
+		{
+			cout << um.at(str) << "\n";
+		}
+
+		else	// isdigit(str[0]) 으로 알아내도 된다.
+		{
+			int a = stoi(str);
+			cout << um2.at(a) << "\n";
+		}
+		
+	}
+}
