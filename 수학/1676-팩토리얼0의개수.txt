@@ -1,0 +1,42 @@
+풀이: 500!은 2초를 분명하게 넘어가기 때문에, 0의 갯수만 따로 세어야 함.
+0의 갯수는 10의 배수와 2*5일 때 늘어난다.
+그런데 2는 2,4,6,8,10
+	5는 5,10
+에서 각각 count 되므로, 5의 갯수만 세어주면 된다!
+100은 25*4이기 때문에 두 번 count.
+
+#include <iostream>
+using namespace std;
+
+int N;
+int ans = 0;
+
+void fact(int n)
+{
+	for (int i = 5; i <= n; i+=5)		// i*=2, i*=5는 15 건너뛰게 됨.
+	{
+		int tmp = i;
+
+		while (true)
+		{
+			if (tmp % 5 == 0)
+			{
+				ans++;
+				tmp /= 5;		// 100은 25를 포함하기 때문에 2 up
+			}
+			else
+				break;
+		}	
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> N;
+
+	fact(N);
+
+	cout << ans;
+}
