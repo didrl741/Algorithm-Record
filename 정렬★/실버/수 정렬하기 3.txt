@@ -1,0 +1,32 @@
+만약 수 10^7개를 전부 저장하면? -> 4Byte * 10^7 = 40MB로 메모리 초과.
+따라서 수를 저장하지 않고 카운트만 해줘야 한다.
+이 때, 수 제한이 10000이므로 arr[10001]에 카운트 하자.
+
+참고: 벡터보다 배열이 접근과 조회가 빠르다.
+
+#include <iostream>
+using namespace std;
+
+int n;
+int arr[10001];
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		arr[a]++;
+	}
+	
+	for (int i = 1; i <=10000 ; i++)
+	{
+		while (arr[i]--)
+		{
+			cout << i << '\n';
+		}
+	}
+}
