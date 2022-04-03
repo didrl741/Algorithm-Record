@@ -1,0 +1,52 @@
+전수조사가 필요한 상황에 백트래킹방식을 사용한 알고리즘이다.
+방식은 DFS와 똑같다. 조사하는 과정에서 아니다싶으면 return해서
+이전으로 돌아가서 다시 확인한다.
+
+#include <iostream>
+using namespace std;
+
+int n;
+int ans = 0;
+
+int arr[17];
+
+bool check(int row)
+{
+	for (int i = 1; i < row; i++)
+	{
+		if (arr[i] == arr[row] || abs(arr[row] - arr[i]) == row - i) return false;
+	}
+	return true;
+}
+
+void queen(int row)
+{
+	if (row == n + 1)
+	{
+		ans++;
+	}
+
+	else
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			arr[row] = i;
+			if (check(row))
+			{
+				queen(row + 1);
+			}
+		}
+	}
+
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> n;
+
+	queen(1);	// 1행부터 시작
+
+	cout << ans;
+}
