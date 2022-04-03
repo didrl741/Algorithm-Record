@@ -1,0 +1,140 @@
+이 문제의 고민사항: 각 경로별로 visited[26]을 따로따로 만들어줘야되나?
+시도해봤다 -> 메모리 초과.
+해결: return할 때 마다 visited[] = false를 해주자!
+
+그런데 
+
+DFS만 return이 있다 -> DFS로 풀자.
+#include <iostream>
+#include <string>
+using namespace std;
+
+int r, c;
+int arr[22][22];
+
+int ans = 0;
+int where[4][2] = { {1,0}, {-1,0}, {0,1}, {0,-1} };
+
+bool visited[26];
+
+void DFS(int y, int x, int cnt, char ch)
+{
+	visited[ch-'A'] = true;
+	ans = max(cnt, ans);
+
+	for (int i = 0; i < 4; i++)
+	{
+		int tmpY = y + where[i][0];
+		int tmpX = x + where[i][1];
+		int tmpWhat = arr[tmpY][tmpX];
+
+		if (arr[tmpY][tmpX] && !visited[tmpWhat - 'A'])
+		{
+			DFS(tmpY, tmpX, cnt+1, tmpWhat);
+		}
+	}
+
+	visited[ch - 'A'] = false;
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> r >> c;
+	for (int i = 1; i <= r; i++)
+	{
+		string str;
+		cin >> str;
+		int len = str.length();
+
+		for (int j = 0; j < len; j++)
+		{
+			arr[i][j + 1] = str[j];
+		}
+	}
+
+	DFS(1,1,1, arr[1][1]);
+
+	cout << ans;
+}
+
+
+
+
+
+bfs 실패한 버전.
+
+#include <iostream>
+#include <string>
+#include <queue>
+using namespace std;
+
+int r, c;
+int arr[22][22];
+
+int ans = 1;
+int where[4][2] = { {1,0}, {-1,0}, {0,1}, {0,-1} };
+
+struct atom
+{
+	int y;
+	int x;
+	int cnt;
+	bool visited[26] = {0,};		// 메모리초과
+};
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> r >> c;
+	for (int i = 1; i <= r; i++)
+	{
+		string str;
+		cin >> str;
+		int len = str.length();
+
+		for (int j = 0; j < len; j++)
+		{
+			arr[i][j + 1] = str[j];
+		}
+	}
+
+	// bfs
+	queue< atom > q;
+
+	atom at;
+	at.y = 1;	at.x = 1;	at.cnt = 1;
+	at.visited[arr[1][1] - 'A'] = true;
+	q.push(at);			
+
+	while (!q.empty())
+	{
+		atom nowAt = q.front();
+		int nowY = q.front().y;
+		int nowX = q.front().x;
+		int nowWhat = arr[nowY][nowX];
+		int nowCnt = q.front().cnt;
+
+		q.pop();
+
+		for (int i = 0; i < 4; i++)
+		{
+			int tmpY = nowY + where[i][0];
+			int tmpX = nowX + where[i][1];
+			int tmpWhat = arr[tmpY][tmpX];
+
+			if ( arr[tmpY][tmpX] && !nowAt.visited[tmpWhat - 'A'])		// 0이면 통과인지 주의
+			{
+				atom at = nowAt;
+				at.y = tmpY;	at.x = tmpX;	at.cnt = nowCnt + 1;
+				at.visited[tmpWhat - 'A'] = true;
+				q.push(at);
+				ans = max(ans, nowCnt + 1);
+			}
+		}
+		
+	}
+	cout << ans;
+}
