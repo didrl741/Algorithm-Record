@@ -1,0 +1,65 @@
+왜 안되는지 모르겠다
+
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+int n;
+int m;
+int r;
+
+vector<int> arr[100001];
+int dep[100001];
+int order[100001];
+bool visited[100001];
+int cnt=1;
+int depth = 0;
+int ans = 0;
+
+void dfs(int v, int depth)
+{
+	order[v] = cnt++;
+	dep[v] = depth;
+	visited[v] = true;
+
+	for (int i = 0; i < arr[v].size(); i++)
+	{
+		if (visited[arr[v][i]] == false)
+		{
+			dfs(arr[v][i], depth+1);
+		}
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> n >> m >> r;
+
+	memset(dep, -1, sizeof(dep));
+
+	for (int i = 0; i < m; i++)
+	{
+		int a, b;
+		cin >> a >> b;
+		arr[a].push_back(b);
+		arr[b].push_back(a);
+	}
+
+	for (int i = 1; i <= n; i++)
+	{
+		sort(arr[i].begin(), arr[i].end());
+	}
+
+	dfs(r, 0);
+
+	for (int i = 1; i <= n; i++)
+	{
+		cout << order[i] << "    " << dep[i] << endl;
+		ans += order[i] * dep[i];
+	}
+	cout << ans;
+}

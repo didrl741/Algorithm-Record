@@ -1,0 +1,108 @@
+처음에 실패 이유: 74줄에 break 안 썼다. 이렇게 되면 테스트케이스 2의 경우,
+guess의 2행 1열 A에서만 yellow 값이 두번 늘어서 2가 된다. 
+그러면 만약 guess 2행의 2열 3열 요소가 A가 아닐경우 답이 틀리게 된다.
+
+두 번째 실패 이유★: 이중for문 에서의 break
+이중포문에서 그냥 break써버리면 내부for문에서만 벗어나게 된다.
+따라서 이 문제처럼 bool flag를 설정해서 외부for문에서도 빠져나와야 한다.
+for ()
+	{
+		if (flag == true) break;		// 2중포문 break;
+				
+		for ()
+		{
+			if ()
+			{
+				flag = true;
+				break;
+			}
+		}
+	}
+
+
++ 생각난 풀이 2: 굳이 행렬로 안풀어도 된다. 그냥 length == 9인 string으로 풀어도
+충분히 풀릴 것 같다. (행과 열을 이용한 요구사항이 없기도 하고, 이중for문 break
+신경 안 써도 된다.)
+
+코드:
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+char correct[3][3];
+char guess[3][3];
+
+int g, y;
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	for (int i = 0; i < 3; i++)
+	{
+		string str;
+		cin >> str;
+		for (int j = 0; j < 3; j++)
+		{
+			correct[i][j] = str[j];
+		}
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		string str2;
+		cin >> str2;
+		for (int j = 0; j < 3; j++)
+		{
+			guess[i][j] = str2[j];
+		}
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			
+			if (correct[i][j] == guess[i][j])
+			{
+				g++;
+				correct[i][j] = 'o';
+				guess[i][j] = 'o';
+			}
+		}
+	}
+
+	bool flag = false;
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			flag = false;
+
+			if (guess[i][j] == 'o')
+			{
+				continue;
+			}
+
+			for (int k = 0; k < 3; k++)
+			{
+				if (flag == true) break;		// 2중포문 break;
+				
+				for (int q = 0; q < 3; q++)
+				{
+					if (correct[k][q] == guess[i][j])
+					{
+						correct[k][q] = 'o';
+						y++;
+
+						flag = true;
+						break;
+					}
+				}
+			}
+		}
+	}
+	cout << g << '\n' << y;
+}
