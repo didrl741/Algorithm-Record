@@ -1,0 +1,59 @@
+브루트 포스와 정렬을 활용한 문제.
+각 인덱스마다 앞뒤를 다 확인하기보다는 뒤만 확인하고 min을 이용했다.
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int n;
+int ans = 0;
+
+struct atom {
+	int x;
+	int color;
+	int r;
+};
+
+bool cmp(atom a, atom b)
+{
+	return a.x < b.x;
+}
+
+vector<atom> v;
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int a, b;
+		cin >> a >> b;
+		v.push_back({ a,b, 100001 });
+	}
+
+	sort(v.begin(), v.end(), cmp);
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = i + 1; j <= n - 1; j++)
+		{
+			if (v[i].color == v[j].color)
+			{
+				v[i].r = min(v[i].r, v[j].x - v[i].x);
+				v[j].r = min(v[j].r, v[j].x - v[i].x);
+				
+				break;
+			}
+		}
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		ans += v[i].r;
+	}
+
+	cout << ans;
+}
