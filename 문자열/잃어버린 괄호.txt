@@ -1,0 +1,91 @@
+풀이: 일단 -가 나타나기만 하면 그 뒤의뒤의 수부터는 +나 - 로 얼마든지 바꿔도 된다.
+예를들어 A + B - C + D - E 라고 하면 A부터 C까지는 입력한 대로 연산해야 되지만
+D와 E 앞에있는 부호는 마음껏 바꿔도 된다.
+그런데 우리는 최소값을 원하기 때문에 D와 E의 부호를 -로 바꿀 것이다.
+이것을 위해 bool metMinus를 이용했다.
+그리고 string의 일부 -> int 로 변환하는 것을 배웠다.
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+string str;
+int ans = 0;
+int digitlen = 0;
+
+int digitStart;
+
+bool metDigit = false;
+bool metMinus = false;
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> str;
+
+	str.push_back('+');		// 마지막 수 처리의 번거로움을 없애기 위함.
+
+	int len = str.length();
+
+
+	for (int i = 0; i < len; i++)
+	{
+		if (str[i] == '+' )
+		{
+			metDigit = false;
+
+			string before = str.substr(digitStart, digitlen);
+			int beforeNum = stoi(before);
+
+			if (metMinus == true)
+			{
+				ans -= beforeNum;
+			}
+			else
+			{
+				ans += beforeNum;
+			}
+			
+			digitlen = 0;
+		}
+
+		else if (str[i] == '-')
+		{
+			
+			metDigit = false;
+
+			string before = str.substr(digitStart, digitlen);
+			int beforeNum = stoi(before);
+
+			if (metMinus == true)
+			{
+				ans -= beforeNum;
+			}
+			else
+			{
+				ans += beforeNum;
+			}
+
+			metMinus = true;		// 위치 주의. 위에 쓰면 안된다.
+			digitlen = 0;
+		}
+
+		else
+		{
+			if (metDigit == true)	// i-1도 숫자
+			{
+				digitlen++;
+			}
+			else					// i-1이 연산자
+			{
+				digitStart = i;
+				metDigit = true;
+				digitlen++;
+			}
+		}
+	}
+
+
+	cout << ans;
+}
