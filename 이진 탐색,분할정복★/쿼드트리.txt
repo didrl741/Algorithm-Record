@@ -1,0 +1,77 @@
+풀이: 
+종이의 개수 문제와 똑같이 풀었다.
+차이점은 9등분vs4등분.
+그리고 int( '0' ) = 48 인 것을 배웠다.
+stoi를 사용하지 않고 'int' 를 int로 바꿀려면
+int( 'int' - '0' ) = 0이다. 
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int n;
+
+int arr[65][65];
+
+
+int check(int size, int startY, int startX)
+{
+	int base = arr[startY][startX];
+
+	for (int i = startY; i < startY + size; i++)
+	{
+		for (int j = startX; j < startX + size; j++)
+		{
+			if (arr[i][j] != base)
+			{
+				return 10;
+			}
+		}
+	}
+
+	return base;
+}
+
+void solve(int size, int startY, int startX)
+{
+	int checkNum = check(size, startY, startX);
+
+	if (checkNum != 10)
+	{
+		cout << checkNum;
+	}
+
+	else
+	{
+		cout << '(';
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				solve(size / 2, startY + i * size / 2, startX + j * size / 2);
+			}
+		}
+		cout << ')';
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> n;
+
+	for (int i = 1; i <= n; i++)
+	{
+		string str;
+		cin >> str;
+		for (int j = 0; j < n; j++)
+		{
+			arr[i][j+1] = int(str[j]-'0');
+		}
+	}
+
+	solve(n, 1, 1);
+}
+
+// int('0') == 48 
