@@ -1,0 +1,38 @@
+평범한 DP 문제.
+최대 N을 넣어봤더니 음수가 나왔다 -> 범위 넘어선 것 확인.
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int tk;
+
+long long arr[101];
+
+long long wave(int n)
+{
+	if (arr[n] != -1) return arr[n];
+
+	else
+	{
+		return arr[n] = wave(n - 5) + wave(n - 1);
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	memset(arr, -1, sizeof(arr));
+	
+	arr[1] = arr[2] = arr[3] = 1;
+	arr[4] = arr[5] = 2;
+
+	cin >> tk;
+
+	while (tk--)
+	{
+		int n;
+		cin >> n;
+		cout << wave(n) << '\n';
+	}
+}
