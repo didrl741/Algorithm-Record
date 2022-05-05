@@ -1,0 +1,79 @@
+일반적인 DFS문제와 다른점은 특정 단지의 아파트의 갯수를 샐 때
+전역변수(여기서는 ans)를 ++ 해줘야 한다는 점이다.
+DFS(vertex, cnt)로 하면 그 지점까지의 거리를 구하게된다.
+BFS로도 풀 수 있는 문제지만 DFS가 더 적절하다고 생각한다.
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool arr[26][26];
+int n;
+vector<int> numVector;
+bool visited[26][26];
+
+int ans = 0;
+
+int where[4][2] = { {1,0}, {-1,0}, {0,1}, {0,-1} };
+
+void DFS(int y, int x)
+{
+	visited[y][x] = true;
+	ans++;
+
+	for (int i = 0; i < 4; i++)
+	{
+		int tmpY = y + where[i][0];
+		int tmpX = x + where[i][1];
+
+		if (visited[tmpY][tmpX] == false
+			&& arr[tmpY][tmpX] == true)
+		{
+			DFS(tmpY, tmpX);
+		}
+	}
+}
+
+
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	
+	cin >> n;
+
+	for (int i = 1; i <= n; i++)
+	{
+		string str;
+		cin >> str;
+		for (int j = 1; j <= n; j++)
+		{
+			arr[i][j] = int(str[j-1] - '0');
+		}
+	}
+
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			if (arr[i][j] && !visited[i][j])
+			{
+				DFS(i, j);
+
+				numVector.push_back(ans);
+				ans = 0;
+			}
+		}
+	}
+
+	sort(numVector.begin(), numVector.end());
+
+	cout << numVector.size() << '\n';
+	for (int i = 0; i < numVector.size(); i++)
+	{
+		cout << numVector[i] << '\n';
+	}
+}

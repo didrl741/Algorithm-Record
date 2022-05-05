@@ -1,6 +1,6 @@
 # 그래프
 
--   정점과 간선으로 이루어진 자료구조. 양방향, 단방향, 가중치 유무. 
+-   정점과 간선으로 이루어진 자료구조. 양방향, 단방향, 가중치 유무.
 
 ### 구현
 
@@ -34,8 +34,10 @@ vector < pair<int, 가중치> > arr[4];
     	}
 
     	visited[vertex] = false;		// 경로마다 따로 체크해야될 사항이 있는 경우, return할 때 false 해주자!!
-
     }
+
+-   DFS(int vertex, int cnt)를 해서 DFS(newVertex, cnt+1) 할 경우, 그 점의 depth가 cnt가 된다.
+-   BFS에서도 마찬가지므로 cnt는 원점에서 그 지점까지의 거리가 된다.
 
 ### 스택
 
