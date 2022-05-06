@@ -1,0 +1,184 @@
+구글링의 도움으로 풀었다.
+아직까지 이해되지 않는 부분: 주석처리한 부분을 내가 짰는데
+나는 저게 더 빠르다고 생각한다.
+target 주변에서 찾아서 찾으면 즉시 break하기 때문.
+
+하지만 답은 i=0 부터 500000까지 다 살펴보는 브루트포스 방식이다.
+조금 더 생각해봐야겠다.
+
+숫자의 자릿수와 각 자리의 수를 구할 때 String을 썼더니 훨씬 편했다.
+(시간은 2배로 걸렸다)
+
+밑에 최종 깔끔한 버전 있음.
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int target;
+int n;
+bool arr[10];
+
+bool subCheck(int n)
+{
+	if (arr[n] == true) return true;
+	else
+		return false;
+}
+
+// 번호를 눌러서 n으로 간뒤 + or - 눌러서  target으로 가는 총 합.
+// n을 이루는 수 중 불가능한 수가 있으면 -1 반환.
+int check(int n)
+{
+	//cout << "현재 " << n << endl;
+	int backUp = n;
+	int posNum = 0;
+
+	
+	while (true)
+	{
+		int tmp = n % 10;
+		posNum++;
+		if (subCheck(tmp) == false) return -1;
+
+		n /= 10;
+		
+		if (n == 0) break;
+
+	}
+
+	//cout << "자릿수 : " << posNum << endl;
+
+	return posNum + abs(target - backUp);
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	
+	cin >> target;
+	cin >> n;
+
+	int minimum = abs(target - 100);
+
+	memset(arr, true, sizeof(arr));
+
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		arr[a] = false;
+	}
+
+
+
+	for (int i = 0; i <= 1000000; i++)
+	{
+		int checkNum = check(i);
+		if (checkNum != -1)
+		{
+			minimum = min(minimum, checkNum);
+		}
+	}
+	cout << minimum;
+
+
+	/*int i = 0;
+	bool flag = false;
+
+	while (i>=0 || i<=500000)
+	{
+		int checkNum = check(target - i);
+
+		if (checkNum != -1)
+		{
+			minimum = min(minimum, checkNum);
+			flag = true;
+		}
+
+		checkNum = check(target + i);
+		if (checkNum != -1)
+		{
+			minimum =  min(minimum, checkNum);
+			flag = true;
+		}
+
+		if (flag == true)
+		{
+			cout << minimum;
+			break;
+		}
+
+		i++;
+	}*/
+}
+
+
+
+
+
+
+문자열 파싱 이용한 버전
+
+#include <iostream>
+#include <cstring>
+#include <string>
+using namespace std;
+
+int target;
+int n;
+bool arr[10];
+
+bool subCheck(int n)
+{
+	if (arr[n] == true) return true;
+	else
+		return false;
+}
+
+int check(int n)
+{
+	int backUp = n;
+	int posNum = 0;
+
+	string s = to_string(n);
+
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (subCheck(s[i] - '0') == false) return -1;
+	}
+	posNum = s.length();
+
+	return posNum + abs(target - backUp);
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	
+	cin >> target;
+	cin >> n;
+
+	int minimum = abs(target - 100);
+
+	memset(arr, true, sizeof(arr));
+
+	for (int i = 0; i < n; i++)
+	{
+		int a;
+		cin >> a;
+		arr[a] = false;
+	}
+
+
+
+	for (int i = 0; i <= 1000000; i++)
+	{
+		int checkNum = check(i);
+		if (checkNum != -1)
+		{
+			minimum = min(minimum, checkNum);
+		}
+	}
+	cout << minimum;
+}
