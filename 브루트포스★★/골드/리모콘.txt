@@ -10,6 +10,7 @@ target 주변에서 찾아서 찾으면 즉시 break하기 때문.
 (시간은 2배로 걸렸다)
 
 밑에 최종 깔끔한 버전 있음.
+(str[i] -> 아직 char형임을 주의하자)
 
 #include <iostream>
 #include <cstring>
