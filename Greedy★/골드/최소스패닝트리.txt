@@ -1,0 +1,224 @@
+자료구조와 알고리즘 수업때 다룬 부분이다.
+크루스칼을 이용했다.
+밑에 프림을 이용한 방법도 있다.
+역시 크루스칼이 제일 간편한 것 같다.
+union이 조금 까다로울 수 있다.
+
+그리디일수밖에 없는 이유를 생각해보자.
+
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+struct Line
+{
+	int weight;
+	int node1;
+	int node2;
+};
+
+struct cmp
+{
+	bool operator()(Line A, Line B)
+	{
+		return A.weight > B.weight;
+	}
+};
+
+int ver, e;
+int addedEdge = 0;
+
+int ans = 0;
+
+priority_queue<Line, vector<Line>, cmp> pq;
+
+int setArr[10001];
+
+int parent(int v)
+{
+	while (v != 0)
+	{
+		int tmp = setArr[v];
+
+		if (tmp != 0)
+		{
+			v = tmp;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	return v;
+}
+
+// 4 - 6 union 하고 5 - 6 union 하면 6의 부모가 두개 생기던 문제를
+// 부모노드끼리 union하게끔 해서 해결했다.
+void myUnion(int v1, int v2)
+{
+	int v1P = parent(v1);
+	int v2P = parent(v2);
+
+	if (v1P < v2P)
+	{
+		setArr[v2P] = v1P;
+	}
+	else
+		setArr[v1P] = v2P;
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> ver >> e;
+
+	for (int i = 0; i < e; i++)
+	{
+		int a, b, c;
+		cin >> a >> b >> c;
+
+		pq.push({ c, a,b });
+	}
+
+
+	while (addedEdge <= ver-1 && !pq.empty())
+	{
+		Line line = pq.top();
+		pq.pop();
+
+		int v1 = line.node1;
+		int v2 = line.node2;
+
+		if (parent(v1) != parent(v2))
+		{
+			myUnion(v1, v2);
+			ans += line.weight;
+		}
+
+	}
+
+	cout << ans;
+}
+
+
+프림을 이용한 방법.
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+struct Line
+{
+	int weight;
+	int node1;
+	int node2;
+};
+
+struct cmp
+{
+	bool operator()(Line A, Line B)
+	{
+		return A.weight > B.weight;
+	}
+};
+
+int ver, e;
+int addedEdge = 0;
+
+queue<Line> arr[10001];
+
+int ans = 0;
+
+priority_queue<Line, vector<Line>, cmp> pq;
+
+int setArr[10001];
+
+int parent(int v)
+{
+	while (v != 0)
+	{
+		int tmp = setArr[v];
+
+		if (tmp != 0)
+		{
+			v = tmp;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	return v;
+}
+
+// 4 - 6 union 하고 5 - 6 union 하면 6의 부모가 두개 생기던 문제를
+// 부모노드끼리 union하게끔 해서 해결했다.
+void myUnion(int v1, int v2)
+{
+	int v1P = parent(v1);
+	int v2P = parent(v2);
+
+	if (v1P < v2P)
+	{
+		setArr[v2P] = v1P;
+	}
+	else
+		setArr[v1P] = v2P;
+}
+
+void moveIntoPQ(int v)
+{
+	while (!arr[v].empty())
+	{
+		pq.push(arr[v].front());
+		arr[v].pop();
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> ver >> e;
+
+	for (int i = 0; i < e; i++)
+	{
+		int a, b, c;
+		cin >> a >> b >> c;
+		
+		arr[a].push({ c,a,b });
+		arr[b].push({ c,b,a });
+
+		//pq.push({ c, a,b });
+	}
+
+	moveIntoPQ(1);
+
+	while (addedEdge <= ver-1 && !pq.empty())
+	{
+		Line line = pq.top();
+		pq.pop();
+
+		int v1 = line.node1;
+		int v2 = line.node2;
+
+		if (parent(v1) != parent(v2))
+		{
+			myUnion(v1, v2);
+			ans += line.weight;
+			addedEdge++;
+
+			moveIntoPQ(v1);
+			moveIntoPQ(v2);
+		}
+
+	}
+
+	cout << ans;
+}

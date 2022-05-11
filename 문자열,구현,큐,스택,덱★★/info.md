@@ -15,3 +15,9 @@
     cout << (a & 1) << endl; // and
 
     cout << (a ^ 1) << endl; // xor
+
+## deque
+
+-   front와 back 둘다에서 pop과 push가 가능한 자료구조.
+
+-   vector.erase(vector.begin()) 보다 deque.pop_front() 가 더 빠르다.
