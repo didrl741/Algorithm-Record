@@ -17,7 +17,7 @@
         int v;
         int dist;
     };
-
+    
     void dijkstra(int startV)
     {
         priority_queue pq; // startV와의 거리가 가까운것이 top
