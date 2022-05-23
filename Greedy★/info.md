@@ -12,32 +12,32 @@
 
 -   코드 ( 골드에서 최단경로 문제 참고 )
 
-    struct Atom
-    {
-        int v;
-        int dist;
-    };
-    
-    void dijkstra(int startV)
-    {
-        priority_queue pq; // startV와의 거리가 가까운것이 top
-
-        pq.push({ startV, 0 });         // 처음 시작점 push
-
-        while (!pq.empty())
+        struct Atom
         {
-            int minDist = pq.top().dist;
-            int minIdx = pq.top().v;
+            int v;
+            int dist;
+        };
+        
+        void dijkstra(int startV)
+        {
+            priority_queue pq; // startV와의 거리가 가까운것이 top
 
-            pq.pop();
+            pq.push({ startV, 0 });         // 처음 시작점 push
 
-            for (int k = 0; k < arr[minIdx].size(); k++)
+            while (!pq.empty())
             {
-                  if (minIdx를 거쳐서 가는게 더 짧은 노드가 있으면)
-                  {
-                      ansArr[더 짧아진 노드] = minDist + (minIdx와 더 짧아진 노드 사이의 거리);
-                      pq.push({ 더 짧아진 노드 , 갱신된 거리 });
-                  }
+                int minDist = pq.top().dist;
+                int minIdx = pq.top().v;
+
+                pq.pop();
+
+                for (int k = 0; k < arr[minIdx].size(); k++)
+                {
+                    if (minIdx를 거쳐서 가는게 더 짧은 노드가 있으면)
+                    {
+                        ansArr[더 짧아진 노드] = minDist + (minIdx와 더 짧아진 노드 사이의 거리);
+                        pq.push({ 더 짧아진 노드 , 갱신된 거리 });
+                    }
+                }
             }
         }
-    }
