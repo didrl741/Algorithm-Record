@@ -1,0 +1,280 @@
+우선순위 큐를 이용했다.
+초기셋팅에서 주석친 부분이 왜 안되는지 아직 잘 모르겠다.
+
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <queue>
+
+#define MAX 2000000
+
+using namespace std;
+
+struct Atom
+{
+	int v;
+	int dist;
+};
+
+struct cmp
+{
+	bool operator()(Atom a, Atom b)
+	{
+		return a.dist > b.dist;
+	}
+};
+
+vector<pair<int, int>> arr[20001];
+
+int v, e;
+int startV;
+
+int ansArr[20001];
+
+void dijkstra(int startV)
+{
+	priority_queue<Atom, vector<Atom>, cmp> pq;
+
+	// startV에서 바로 갈 수 있는 정점들을 미리 pq에 넣어둔다. -> 왜 안되는지 모르겠다.
+	/*for (int i = 0; i < arr[startV].size(); i++)
+	{
+		ansArr[arr[startV][i].first] = arr[startV][i].second;
+
+		pq.push({ arr[startV][i].first ,arr[startV][i].second });
+	}*/
+
+	// startV만 pq에 넣어둔다.
+	pq.push({ startV, 0 });
+
+	while (!pq.empty())
+	{
+		int minDist = pq.top().dist;
+		int minIdx = pq.top().v;
+
+		pq.pop();
+
+		for (int k = 0; k < arr[minIdx].size(); k++)
+		{
+			if (minDist + arr[minIdx][k].second < ansArr[arr[minIdx][k].first])
+			{
+				ansArr[arr[minIdx][k].first] = minDist + arr[minIdx][k].second;
+				pq.push({ arr[minIdx][k].first ,ansArr[arr[minIdx][k].first] });
+			}
+		}
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	fill(ansArr, ansArr + 20001, MAX);
+
+	cin >> v >> e >> startV;
+
+	ansArr[startV] = 0;
+
+	for (int i = 0; i < e; i++)
+	{
+		int a, b, c;
+		cin >> a >> b >> c;
+		arr[a].push_back({ b,c });
+	}
+
+	dijkstra(startV);
+	
+	for (int i = 1; i <= v; i++)
+	{
+		if (ansArr[i] >= MAX)
+		{
+			cout << "INF" << '\n';
+		}
+
+		else
+		{
+			cout << ansArr[i] << '\n';
+		}
+	}
+}
+
+
+
+
+배열 구현:	메모리초과.
+
+#include <iostream>
+#include <cstring>
+#define MAX 2000000
+using namespace std;
+
+int arr[20001][20001];
+int v, e;
+int startV;
+
+
+int ansArr[20001];
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	// arr MAX로 초기화
+
+	for (int i = 0; i <= 20000; i++)
+	{
+		fill(arr[i], arr[i] + 20001, MAX) ;
+	}
+
+	for (int i = 0; i <= 20000; i++)
+	{
+		arr[i][i] = 0;
+	}
+
+	fill(ansArr, ansArr + 20001, MAX);
+
+	ansArr[startV] = 0;
+
+	cin >> v >> e >> startV;
+
+	for (int i = 0; i < e; i++)
+	{
+		int a, b, c;
+		cin >> a >> b >> c;
+		arr[a][b] = c;
+	}
+
+	for (int i = 1; i <= v; i++)
+	{
+		ansArr[i] = arr[startV][i];
+	}
+
+	for (int i = 0; i < v - 1; i++)
+	{
+		int min = MAX;
+		int minIdx;
+		for (int j = 1; j <= v; j++)
+		{
+			if (0 < ansArr[j] && ansArr[j] < min)
+			{
+				min = ansArr[j];
+				minIdx = j;
+			}
+		}
+
+		for (int k = 1; k <= v; k++)
+		{
+			if (ansArr[minIdx] + arr[minIdx][k] < ansArr[k])
+			{
+				ansArr[k] = ansArr[minIdx] + arr[minIdx][k];
+			}
+		}
+	}
+	
+	for (int i = 1; i <= v; i++)
+	{
+		if (ansArr[i] >= MAX)
+		{
+			cout << "INF" << '\n';
+		}
+		else
+		{
+			cout << ansArr[i] << '\n';
+		}
+		
+	}
+}
+
+
+
+
+
+
+우선순위 큐 안쓰고 벡터만 쓴 버전: find 하는 과정에서 시간초과 난다.
+
+#include <iostream>
+#include <cstring>
+#include <vector>
+#define MAX 2000000
+using namespace std;
+
+vector<pair<int, int>> arr[20001];
+int v, e;
+int startV;
+
+int ansArr[20001];
+bool checked[20001];
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	// arr MAX로 초기화
+
+	fill(ansArr, ansArr + 20001, MAX);
+
+	
+
+	cin >> v >> e >> startV;
+
+	// 위치 주의! startV 받고 해야 함
+	ansArr[startV] = 0;
+
+	for (int i = 0; i < e; i++)
+	{
+		int a, b, c;
+		cin >> a >> b >> c;
+		arr[a].push_back({ b,c });
+	}
+	
+	for (int i = 1; i <= arr[startV].size(); i++)
+	{
+		ansArr[arr[startV][i - 1].first] = arr[startV][i-1].second;
+	}
+	
+	for (int i = 0; i < v - 1; i++)
+	{
+		int min = MAX;
+		int minIdx = 0;
+		for (int j = 1; j <= v; j++)
+		{
+			if (0 < ansArr[j] && ansArr[j] < min && checked[j]==false)
+			{
+				min = ansArr[j];
+				minIdx = j;
+			}
+		}
+
+		if (minIdx == 0)
+		{
+			break;
+		}
+
+		//cout << minIdx << endl;
+
+		checked[minIdx] = true;
+
+		for (int k = 0; k < arr[minIdx].size(); k++)
+		{
+
+			if (ansArr[minIdx] + arr[minIdx][k].second < ansArr[arr[minIdx][k].first])
+			{
+				ansArr[arr[minIdx][k].first] = ansArr[minIdx] + arr[minIdx][k].second;
+			}
+		}
+	}
+	
+	
+
+	for (int i = 1; i <= v; i++)
+	{
+		if (ansArr[i] >= MAX)
+		{
+			cout << "INF" << '\n';
+		}
+		else
+		{
+			cout << ansArr[i] << '\n';
+		}
+		
+	}
+}
