@@ -8,6 +8,7 @@
 - 배열 초기화 함수 두가지 : 
 - fill(arr, arr + n + 1, 1000);     -> 모든 수 가능.       algorithm 헤더
 - memset(arr, -1, sizeof(arr));     -> 0, -1 만 가능.      cstring 헤더
+- 주의점: DP로 풀어야할지 헷갈리는 문제가 대다수이다.  
 
 ## 재귀법과 반복문법
 ![dp](https://user-images.githubusercontent.com/97036481/148887970-ae5e63ee-94c9-4637-bbee-d611825f597f.png)

@@ -1,0 +1,150 @@
+백트래킹으로도 풀어봤지만 시간초과가 나서 결국 DP로 해결했다.
+알고리즘 교재에 나온대로 하향식을 이용하여 시간을 더욱 단축했다.
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int DP[101][100001];
+
+struct Atom
+{
+	int weight;
+	int value;
+};
+
+bool cmp(Atom a, Atom b)
+{
+	if ((double)a.value / (double)a.weight ==
+		(double)b.value / (double)b.weight) return a.weight > b.weight;
+	return (double)a.value / (double)a.weight <
+		(double)b.value / (double)b.weight;
+}
+
+int n, k;
+int ans = 0;
+
+vector<Atom> v;
+
+int knapsnack(int n, int w)
+{
+	if (n == 0 ) return 0;
+
+	if (DP[n][w] != 0) return DP[n][w];
+	else
+	{
+		if (v[n].weight > w) return DP[n][w] = knapsnack(n - 1, w);
+
+		return DP[n][w] = max(knapsnack(n - 1,w), v[n].value + knapsnack(n - 1,max(0, w - v[n].weight)));
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> n >> k;
+
+	v.push_back({ 0,0 });
+
+	for (int i = 0; i < n; i++)
+	{
+		int a, b;
+		cin >> a >> b;
+		v.push_back({ a,b });
+	}
+
+	sort(v.begin() + 1, v.end(), cmp);
+
+	cout << knapsnack(n, k);
+}
+
+
+
+
+
+시간초과: 백트래킹.
+bound를 이용해서 시도해봤지만 이 문제 한정으로는 시간초과가 나는 듯 하다.
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Atom
+{
+	int weight;
+	int value;
+};
+
+bool cmp(Atom a, Atom b)
+{
+	return (double)a.value / (double)a.weight >
+		(double)b.value / (double)b.weight;
+}
+
+int n, k;
+int ans = 0;
+
+vector<Atom> v;
+
+void backTracking(int cnt, int weight, int value)
+{
+	ans = max(ans, value);
+
+	if (cnt == n)
+	{
+		return;
+	}
+	
+	if (weight + v[cnt + 1].weight <= k)
+	{
+		backTracking(cnt + 1, v[cnt + 1].weight + weight, v[cnt + 1].value + value);
+	}
+
+	double bound = value;
+	int weightSum = weight;
+
+	for (int i = cnt + 2; i <= n; i++)
+	{
+		if (v[i].weight + weightSum <= k)
+		{
+			bound += v[i].value;
+			weightSum += v[i].weight;
+		}
+
+		else
+		{
+			bound += (k - weightSum) * (double)v[i].value / v[i].weight;
+			break;
+		}
+	}
+
+	if (bound > ans)
+	{
+		backTracking(cnt + 1, weight, value);
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	cin >> n >> k;
+
+	v.push_back({ 0,0 });
+
+	for (int i = 0; i < n; i++)
+	{
+		int a, b;
+		cin >> a >> b;
+		v.push_back({ a,b });
+	}
+
+	sort(v.begin() + 1, v.end(), cmp);
+
+	backTracking(0, 0, 0);
+	
+	cout << ans;
+}

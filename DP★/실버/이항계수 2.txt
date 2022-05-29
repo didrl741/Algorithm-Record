@@ -1,0 +1,47 @@
+n개중 k개 뽑는 방법 = n-1개중 k-1개 뽑는방법 + n-1개중 k개 뽑는 방법.
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int DP[1000][1000];
+
+
+// 하향식
+int binomialCoefficient(int n, int k)
+{
+	if (DP[n][k] != 0)
+	{
+		return DP[n][k];
+	}
+	else
+	{
+		if (k == 0 || n == k) return DP[n][k] = 1;
+		else
+			return DP[n][k]= ( binomialCoefficient(n - 1, k - 1) + binomialCoefficient(n - 1, k) ) % 10007;
+	}
+}
+
+// 상향식
+int binomialCoefficient2(int n, int k)
+{
+	for (int i = 0; i <= n; i++)
+	{
+		for (int j = 0; j <= min(i, k); j++)
+		{
+			if (j == 0 || i == j) DP[i][j] = 1;
+			else
+				DP[i][j] = DP[i - 1][j - 1] + DP[i - 1][j] % 10007;
+		}
+	}
+	return DP[n][k];
+}
+
+int n, k;
+
+int main()
+{
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	cin >> n >> k;
+	cout << binomialCoefficient(n, k);
+}
