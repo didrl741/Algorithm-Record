@@ -1,8 +1,44 @@
-## 주요 개념
+
+# 주요 개념
 
 -   값이 정렬되어 있을 때 빠르게 탐색 가능.
 -   절반씩 탐색하므로 빅 오는 log N
 -   DP와 다른점 : DP는 중복이 존재.
+
+# python
+
+## 이진탐색의 두 버전
+
+```python
+# 재귀 버전 
+def binary(arr, l, r, target):
+
+    if l <= r:
+        mid = (l + r) // 2
+        
+        if arr[mid] == target:
+            return True
+        elif target > arr[mid]:
+            return binary(arr, mid+1, r, target)
+        else:
+            return binary(arr, l, mid-1, target)
+    return False
+
+# 일반 버전 : 조금 더 빠르다.
+def binary2(arr, l, r, target):
+
+    while l <= r:
+        mid = (l + r) // 2
+        if arr[mid] == target:
+            return True
+        elif target < arr[mid]:
+            r = mid-1
+        else:
+            l = mid + 1
+    return False
+```
+
+# C++
 
 ## 이진탐색의 두 버전
 
