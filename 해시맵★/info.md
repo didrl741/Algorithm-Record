@@ -1,13 +1,103 @@
 
-## 주요개념
+# 주요개념
 
 - Key 와 Value의 쌍으로 이루어져있으며, Key를 통해 Value에 빠르게 접근할 수 있다.
 - 해시는 정렬이 필요 없으며, 빠른 검색을 원할 때 사용한다.
 - 많은 자료를 저장하고, 검색 속도가 빨라야 할 경우 사용.
 - 해시맵은 해시 함수를 통해 Key를 특정 값으로 변환시키고 이 값을 Value를 저장할 공간의 인덱스로 사용한다.
 
+</br>
 
-### unordered_map
+# dictionary
+
+
+
+
+> 값 추가 (key, value)
+
+        d = {}
+
+        d[999] = 10
+        d['wow'] = 100
+        d[1] = [1,2,3,4,5]
+        d[(1,2)] = 99
+        d[3] = (1,2,3)
+
+> 값 접근 1
+
+        print(d[999])           # 10
+        print(d[ 'wow' ])       # 100
+        print(d[ 1 ])               # [1,2,3,4,5]
+        print(d[ (1,2) ])          # 99
+        print(d[ 3 ])                  # (1,2,3)
+        # print(d[999999])  에러
+
+>  값 접근 2: get 
+
+        print(d.get(999))   # 10
+        print(d.get(9999999))   # None
+
+
+>  값 변경
+
+        d[999] = 999
+        print(d[999])       # 999
+
+> in - 해당 키가 있는가?
+
+        if 999 in d:
+        print('999가 딕셔너리에 있다')
+
+> in - 해당 value가 있는가?
+
+        if 100 in d.values():
+        print('value 100이 딕셔너리에 있다')
+
+
+> keys - 키 나열하기
+
+        # d.keys()의 반환값은 리스트이다!
+        print(d.keys())     # [999, 'wow', 1, (1, 2), 3]
+
+        for k in d.keys():
+        print(k)
+
+> values - 값 나열하기
+
+        print(d.values()) # [999, 100, [1, 2, 3, 4, 5], 99, (1, 2, 3)]
+
+
+> items - 키, 값 쌍으로 뽑기
+
+        print(d.items()) # [(999, 999), ('wow', 100), (1, [1, 2, 3, 4, 5]), ((1, 2), 99), (3, (1, 2, 3))]
+
+
+> del - 키, 값 한 쌍 지우기
+
+        del d['wow']
+
+</br>
+
+# 유용한 내장함수
+## 1. Counter   (from collections import Counter)
+
+</br>
+
+- 리스트를 인자로 넘기면 요소를 key로, 요소의 갯수를 value로 만든 dict를 반환한다.
+
+```python
+from collections import Counter
+
+dict = Counter(['a','a','a','b','b','c'])
+
+# {'a': 3, 'b': 2, 'c': 1}
+
+```
+
+
+# c++
+
+## 1. unordered_map
 
 - 해시 테이블로 구현되어있기 때문에, 요소를 자동으로 정렬하지 않으며 검색, 삽입, 삭제가 평균적으로 상수 시간( O(1) )에 가능하다.
 
@@ -36,7 +126,7 @@
         // hm.end() : 마지막 원소 반복자
         // hm.find(key) : 반복자 리턴, 없다면 end 리턴.
         
-### map
+## 2. map
 
 - Key값 기준으로 sorting 되어있으며 이진탐색트리로 구현되어있기 때문에, unordered_map 보다 찾는데 오래걸린다.
 
