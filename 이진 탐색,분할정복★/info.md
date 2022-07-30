@@ -38,6 +38,19 @@ def binary2(arr, l, r, target):
     return False
 ```
 
+## 이진탐색 라이브러리
+
+```python
+import bisect
+
+list1 = [1,2,3,4,4,5]
+
+print(bisect.bisect_left(list1, 4))     # 3
+print(bisect.bisect_right(list1, 4 ))     # 5
+
+print(bisect.bisect_right(list1, 4 ) - bisect.bisect_left(list1, 4) )   # 2 (갯수샐때 유용)
+```
+
 # C++
 
 ## 이진탐색의 두 버전
