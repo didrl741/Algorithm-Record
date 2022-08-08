@@ -2,13 +2,10 @@
 
 -   정점과 간선으로 이루어진 자료구조. 양방향, 단방향, 가중치 유무.
 
-### 구현
+- 구현:
+	- 인접행렬
+	-   인접리스트 : 인접행렬보다 공간, 시간적 이득.
 
--   인접행렬
-
--   인접리스트 : 인접행렬보다 공간, 시간적 이득.
-
-vector < pair<int, 가중치> > arr[4];
 
 # DFS
 
@@ -18,7 +15,69 @@ vector < pair<int, 가중치> > arr[4];
 -   백트래킹을 이용한 전수조사(N-Queen)방식에도 이용된다.  
     즉, 아니다싶으면 return하여 이전에서 다시 조사하는 방식.
 
-### 재귀
+## 재귀
+
+```python
+def DFS(n):
+    visited[n] = 1
+
+    global ans
+    ans+=1
+
+    for e in graph[n]:
+        if visited[e] == 0:
+            DFS(e)
+
+```
+
+
+# BFS
+
+-   넓이 우선 탐색. 매 턴마다 모든 경우에서 한칸씩 전진한다. 최단경로를 찾을 때 유용하다.
+-   재귀로 구현이 불가능하다. 재귀는 스택과 시스템적으로 구조가 같아서 한번 들어가면
+-   들어간 곳에서 끝까지 파고들어가거나 return하기 전까진 나올 수 없기 때문이다.
+-   즉, BFS의 특징인 '턴제' 를 구현할 수 없다.
+
+## 큐
+```python
+def BFS(n):
+
+    deq = deque()
+
+    visited = [0 for i in range(101)]
+    visited[n] = 1
+
+    global ans
+    
+    deq.append(n)
+
+    while(len(deq) != 0):
+        tmp = deq[0]
+        ans+=1
+        deq.popleft()
+
+        for e in graph[tmp]:
+            if visited[e]==0:
+                deq.append(e)
+                visited[e]=1        # 주의!!!
+```
+
+<br>
+<br>
+
+
+<br>
+<br>
+
+
+# **C++**
+
+- `vector < pair<int, 가중치> > arr[4];`
+
+
+# DFS
+
+## 재귀
 
     void DFS2(int vertex)
     {
@@ -39,7 +98,11 @@ vector < pair<int, 가중치> > arr[4];
 -   DFS(int vertex, int cnt)를 해서 DFS(newVertex, cnt+1) 할 경우, 그 점의 depth가 cnt가 된다.
 -   BFS에서도 마찬가지므로 cnt는 원점에서 그 지점까지의 거리가 된다.
 
-### 스택
+<br>
+<br>
+
+
+## 스택
 
     void DFS3(int vertex)
     {
@@ -65,14 +128,13 @@ vector < pair<int, 가중치> > arr[4];
     	}
     }
 
+<br>
+<br>
+
+
 # BFS
 
--   넓이 우선 탐색. 매 턴마다 모든 경우에서 한칸씩 전진한다. 최단경로를 찾을 때 유용하다.
--   재귀로 구현이 불가능하다. 재귀는 스택과 시스템적으로 구조가 같아서 한번 들어가면
--   들어간 곳에서 끝까지 파고들어가거나 return하기 전까진 나올 수 없기 때문이다.
--   즉, BFS의 특징인 '턴제' 를 구현할 수 없다.
-
-### 큐
+## 큐
 
     void BFS()
     {
