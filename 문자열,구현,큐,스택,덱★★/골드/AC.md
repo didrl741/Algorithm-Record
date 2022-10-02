@@ -1,3 +1,154 @@
+> [ https://www.acmicpc.net/problem/5430 ]( https://www.acmicpc.net/problem/5430 )   
+
+# 해결 전략
+
+</br>
+
+## 1.  `list[1:-1]`
+- 처음에 입력받을 때 특이하게 `[`, `]`를 포함해서 받는다.
+- 이 때 list에 대해 `[1:-1]` 하면 처음과 마지막 인자를 날릴 수 있다.
+
+## 2. reverse 고려
+- 시간초과의 주범이다.
+- 입력함수 최대길이가 100000이기 때문에 R이 최대 100000번 실행될 수 있다.
+- 배열의 최대 수 갯수도 100000이기 때문에 reverse()가 O(n) 인것을 고려하면
+- 100,000 X 100,000 = 10,000,000,000. 즉 100억이나 된다.
+- 따라서 flag를 두었다.
+
+## 3. 출력
+- `getList = [123, 345]` ,  `getList2 = ["123","345"]` 라고 하자.
+- 아래와 같은 함수로 getList, getList2 둘 다 출력결과에 잘 맞지만 실패. (이유는 모르겠다.)
+```python
+def printList(list1):
+    print('[', end='')
+    for e in list1:
+        if e!=list1[-1]:
+            print(e, end=',')
+        else:
+            print(e, end='')
+    print(']')
+```
+- 아래 출력법으로 getList2를 넣으면 성공한다. (getList는 오류)
+- `print('[' + ",".join(getList2) + ']')`
+
+- 추측: 예를들어서 print(list) 하면 출력결과는 똑같아보이지만 String으로 출력하는것이 아니라 IDE에 따라서 다르게 출력하는게 아닐까..?
+
+
+</br>
+
+# 코드
+
+## 정답 코드
+
+```python
+
+from collections import deque
+
+n = int(input())
+
+for i in range(n):
+
+    zeroFlag = False
+    reverseFlag = False
+    
+    command = input()
+    size = int(input())
+
+    if size==0:
+        getList = input()
+        getList = deque()
+    else:
+        getList = input()[1:-1].split(',')
+        getList = deque(getList)
+
+    for e in command:
+        if e=='R':
+            if reverseFlag==False:
+                reverseFlag = True
+            else:
+                reverseFlag = False
+
+        else:
+            if len(getList)==0:
+                zeroFlag = True
+                break
+            if reverseFlag == False:
+                getList.popleft()
+            else:
+                getList.pop()
+
+    if zeroFlag == False:
+        
+        if reverseFlag == True:
+            getList.reverse()
+        print('[' + ",".join(getList) + ']')
+            
+    else:
+        print("error")
+```
+
+## 오류 코드 (이유는 모름)
+```python
+
+from collections import deque
+
+n = int(input())
+
+def printList(list1):
+    print('[', end='')
+    for e in list1:
+        if e!=list1[-1]:
+            print(e, end=',')
+        else:
+            print(e, end='')
+    print(']')
+
+for i in range(n):
+
+    zeroFlag = False
+    reverseFlag = False
+    
+    command = input()
+    size = int(input())
+
+    if size==0:
+        getList = input()
+        getList = deque()
+    else:
+        getList = input()[1:-1].split(',')
+        getList = list(map(int, getList))
+        getList = deque(getList)
+
+    for e in command:
+        if e=='R':
+            if reverseFlag==False:
+                reverseFlag = True
+            else:
+                reverseFlag = False
+
+        else:
+            if len(getList)==0:
+                zeroFlag = True
+                break
+            if reverseFlag == False:
+                getList.popleft()
+            else:
+                getList.pop()
+
+    if zeroFlag == False:
+        getList = list(getList)
+        if reverseFlag == True:
+            getList.reverse()
+        
+        printList(getList)
+            
+    else:
+        print("error")
+```
+
+## c++
+
+```c++
 일단 vector로 시도해봤다.
 algorithm 헤더의 reverse함수를 이용해봤더니 시간초과가 났다.
 R이 나타날 때마다 매번 이 함수를 호출하면 시간초과가 난다.
@@ -280,3 +431,4 @@ int main()
 		dq.clear();
 	}
 }
+```
