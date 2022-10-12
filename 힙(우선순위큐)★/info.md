@@ -10,6 +10,33 @@
 
 ## 사용법
 
+- heapq 사용
+
+```python
+import heapq
+
+pq = []
+
+heapq.heappush(pq, 1)   # pq는 그냥 list인데 append와 다른 점:
+heapq.heappush(pq, 3)   # pq[0]이 가장 작게 유지시켜준다.
+heapq.heappush(pq, 2)
+
+heapq.heappop(pq) # 1
+heapq.heappop(pq) # 2
+heapq.heappop(pq) # 3
+
+print(pq[0])    # pop 하지 않고 가장 작은 값 출력
+
+
+# 리스트를 원소로 둘 수도 있다. 앞 값 먼저 비교.
+pq = []
+
+heapq.heappush(pq, [1,-1] )
+heapq.heappush(pq, [1,1] )
+heapq.heappush(pq, [2,-2] )
+heapq.heappush(pq, [2,2] )
+```
+
 - 기본 (작은 수가 우선)
 ```python
 from queue import PriorityQueue
@@ -41,23 +68,6 @@ for _ in range(3):
 # (2, 'kim')
 # (3, 'hi')
 ```
-
-- heapq 사용
-
-```python
-import heapq
-
-pq = []
-
-heapq.heappush(pq, 1)
-heapq.heappush(pq, 3)
-heapq.heappush(pq, 2)
-
-heapq.heappop(pq) # 1
-heapq.heappop(pq) # 2
-heapq.heappop(pq) # 3
-```
-
 
 # C++
 
