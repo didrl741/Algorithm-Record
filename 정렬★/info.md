@@ -17,6 +17,31 @@
 -   피벗을 하나 정한다(맨 앞). 그 후, 피벗을 기준으로 왼쪽은 작게, 오른쪽은 크게 만든다.
 -   왼쪽과 오른쪽을 피벗정렬한다.
 
+# 람다정렬
+
+```python
+list1 = [[2,1],[3,2],[1,3],[5,4], [5,3]]
+
+# 첫 요소로 오름차순
+list1.sort(key=lambda x: x[0])
+
+# 첫 요소로 내림차순, 같다면 두번째 요소로 오름차순
+list1.sort(key=lambda x: (-x[0], x[1]))
+
+list2 = ['b', 'a', 'abcde', 'adsvadve', 'asv']
+
+# 길이순 정렬
+list2.sort(key= len)
+
+# 위와 같다.
+list2.sort(key=lambda x: len(x))
+
+# 길이가 같다면 사전식 정렬
+list2.sort(key=lambda x: (len(x), x))
+
+print(list2)
+```
+
 # 유용한 내장함수
 
 ## 1.  bisect
