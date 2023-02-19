@@ -69,3 +69,29 @@ for i in range(len-2):
     for j in range(i+1, len-1):
         print(list1[i], list1[j])
 ```
+
+## 조합3
+
+- DFS를 이용했다. 구현이 쉽고 빠르다.
+- 결과 형식이 약간 다르다.
+
+```python
+arr = [0,0,0,0]
+
+def DFS(cnt,idx,target):
+    if cnt==target:
+        print(arr)
+        return
+    
+    for i in range(idx,4):
+        arr[i]=1
+        DFS(cnt+1,i+1, target)
+        arr[i]=0
+
+DFS(0,0,2)
+```
+
+## 조합4
+
+- itertools의 combination 이용
+- 삼성에서는 사용 불가능
