@@ -94,4 +94,16 @@ DFS(0,0,2)
 ## 조합4
 
 - itertools의 combination 이용
-- 삼성에서는 사용 불가능
+- 삼성에서는 사용 가능으로 바뀜.
+```python
+import itertools
+
+list1 = [10,20,30,40]
+
+ans = itertools.permutations(list1, 2)
+ans2 = itertools.combinations(list1, 2)
+
+for i in ans:
+    i = list(i)
+    print(i)
+```
