@@ -17,6 +17,7 @@
 
 ## 재귀
 
+### 한 점 단위의 DFS
 ```python
 def DFS(n):
     visited[n] = 1
@@ -27,6 +28,31 @@ def DFS(n):
     for e in graph[n]:
         if visited[e] == 0:
             DFS(e)
+
+```
+
+### 자취를 기록하는 DFS
+- 예를 들어 https://www.acmicpc.net/problem/14500
+- return 위에 visited=0을 해주지 않을 경우, 다음과 같은 상황이 발생
+	- & 우우우우 하고난 뒤, 밑우'위' 에서 막힌다.
+
+```python
+def DFS(y, x, cnt, sum):
+    visited[y][x] = 1
+
+	if cnt==탈출조건:
+		print(sum)
+		visited[y][x]=0
+		return
+
+    for i in range(4):
+		ny = y + dy[i]
+		nx = x + dx[i]
+        if (ny, nx 경계조건) and visited[ny][nx] == 0:
+            DFS(ny, nx, cnt+1, sum+graph[ny][nx])
+	
+	visited[y][x]=0
+	return
 
 ```
 
