@@ -10,9 +10,6 @@
 
 # dictionary
 
-
-
-
 > 값 추가 (key, value)
 
         d = {}
@@ -75,6 +72,16 @@
 > del - 키, 값 한 쌍 지우기
 
         del d['wow']
+
+>  dic의 key로 list는 불가능하지만 튜플은 가능하다. # dic[[0,1]] 에러
+
+        dic = dict()
+
+        dic[(0,1)] = []
+        dic[(0,1)].append([3,4,5])
+        dic[(0,1)].append([6,7,8])
+
+        dic2 = dict(dic) # 깊은복사
 
 </br>
 
