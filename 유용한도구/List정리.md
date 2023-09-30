@@ -1,5 +1,5 @@
 
-# 다중리스트의 주소문제
+## 다중리스트의 주소문제
 
 ```python
 # 입력값
@@ -34,4 +34,30 @@ print(' ')
 
 for e in graph2:
     print(e) #결과를 보자.
+```
+
+## 전치행렬, 90도회전 행렬
+```python
+# 1 2 3   7 4 1
+# 4 5 6   8 5 2
+# 7 8 9   9 6 3
+arr = [[1,2,3],[4,5,6],[7,8,9]]
+
+# 전치
+arr2 = list(list(e) for e in zip(*arr))
+
+# 전치 -> 90도회전
+arr2 = [list(reversed(e)) for e in arr2]
+
+tmpGraph = [[0,0,0],[0,0,0],[0,0,0]]
+
+# 디폴트 90도 회전
+for i in range(3):
+    for j in range(3):
+        tmpGraph[j][3-i-1] = arr[i][j]
+
+
+for e in tmpGraph:
+    print(e)
+print('')
 ```
