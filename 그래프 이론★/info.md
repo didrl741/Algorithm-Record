@@ -3,7 +3,7 @@
 - 하나의 정점에서 출발시, 다른 모든 정점까지의 최단경로를 구함
 
 ### 코드
-- [https://www.acmicpc.net/problem/1753] (https://www.acmicpc.net/problem/1753)
+- [https://www.acmicpc.net/problem/1753](https://www.acmicpc.net/problem/1753)
 ```python
 import sys
 input = sys.stdin.readline
@@ -33,8 +33,8 @@ def dijkstra(n):
     while(heap):
         nowWeight, now = heapq.heappop(heap)
 
-        if ans[now] < nowWeight: # 이해해보자
-            continue
+        # if ans[now] < nowWeight: # 이해해보자
+        #     continue
 
         for e in graph[now]:
             line = e[0]
@@ -60,6 +60,8 @@ for e in ans:
 ## 플로이드 와샬
 - 모든 정점에서 다른모든 정점까지의 최단 경로
 - 3중 반복문(k, i, j) : graph[i][j]를 구하는데, k점을 거치는 것 고려
+
+- [https://www.acmicpc.net/problem/11404](https://www.acmicpc.net/problem/11404)
 
 ### 코드
 ```python
